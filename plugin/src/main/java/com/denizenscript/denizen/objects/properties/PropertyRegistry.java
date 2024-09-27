@@ -203,8 +203,12 @@ public class PropertyRegistry {
         PropertyParser.registerProperty(InventoryUniquifier.class, InventoryTag.class);
 
         // register core ItemTag properties
-        PropertyParser.registerProperty(ItemFood.class, ItemTag.class); 
-        PropertyParser.registerProperty(ItemHideTooltip.class, ItemTag.class); 
+        if (NMSHandler.getVersion().isAtLeast(NMSVersion.v1_21)) {
+            PropertyParser.registerProperty(ItemFood.class, ItemTag.class); 
+        }
+        if (NMSHandler.getVersion().isAtLeast(NMSVersion.v1_21)) {
+            PropertyParser.registerProperty(ItemHideTooltip.class, ItemTag.class);
+        }
         PropertyParser.registerProperty(ItemArmorPose.class, ItemTag.class);
         PropertyParser.registerProperty(ItemAttributeModifiers.class, ItemTag.class);
         PropertyParser.registerProperty(ItemAttributeNBT.class, ItemTag.class);
