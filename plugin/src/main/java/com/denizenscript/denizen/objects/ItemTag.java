@@ -561,6 +561,30 @@ public class ItemTag implements ObjectTag, Adjustable, FlaggableObject {
         });
 
         // <--[tag]
+        // @attribute <ItemTag.foodable>
+        // @returns ElementTag(Boolean)
+        // @group properties
+        // @description
+        // Returns whether the item can be a food.
+        // If this returns true, it will enable access to:
+        // <@link mechanism ItemTag.food>, and <@link tag ItemTag.food>.
+        // -->
+        tagProcessor.registerTag(ElementTag.class, "foodable", (attribute, object) -> {
+            return new ElementTag(ItemFood.describes(object));
+        });
+
+        // <--[tag]
+        // @attribute <ItemTag.hide_tooltip>
+        // @returns ElementTag(Boolean)
+        // @group properties
+        // @description
+        // Returns whether the item's tooltip is hidden.
+        // -->
+        tagProcessor.registerTag(ElementTag.class, "hide_tooltip", (attribute, object) -> {
+            return new ElementTag(ItemHideTooltip.describes(object));
+        });
+
+        // <--[tag]
         // @attribute <ItemTag.has_inventory>
         // @returns ElementTag(Boolean)
         // @group properties
