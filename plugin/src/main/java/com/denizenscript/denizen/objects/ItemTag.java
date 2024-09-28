@@ -578,9 +578,10 @@ public class ItemTag implements ObjectTag, Adjustable, FlaggableObject {
         // @returns ElementTag(Boolean)
         // @group properties
         // @description
-        // Returns whether the item's tooltip is hidden.
+        // Returns whether the item's tooltip is hidden. Returns true if the item has the "hide_tooltip" flag, false otherwise.
+        // <@link mechanism ItemTag.hide_tooltip>, and <@link tag ItemTag.hide_tooltip>
         // -->
-        tagProcessor.registerTag(ElementTag.class, "hide_tooltip", (attribute, object) -> {
+        tagProcessor.registerTag(ElementTag.class, "has_hide_tooltip", (attribute, object) -> {
             return new ElementTag(ItemHideTooltip.describes(object));
         });
 

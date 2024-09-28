@@ -54,6 +54,16 @@ public class ItemHideTooltip implements Property {
     }
 
     public static void register() {
+
+        // <--[tag]
+        // @attribute <ItemTag.hide_tooltip>
+        // @returns ElementTag(Boolean)
+        // @group properties
+        // @mechanism ItemTag.hide_tooltip
+        // @description
+        // If true, the tooltip is hidden from the item display. 
+        // This flag prevents the display of components, display, and other metadata related to the item.
+        // -->
         PropertyParser.registerTag(ItemHideTooltip.class, ElementTag.class, "hide_tooltip", (attribute, object) -> {
             return new ElementTag(object.item.getItemMeta().isHideTooltip());
         });
@@ -61,6 +71,16 @@ public class ItemHideTooltip implements Property {
 
     @Override
     public void adjust(Mechanism mechanism) {
+
+        // <--[mechanism]
+        // @object ItemTag
+        // @name hide_tooltip
+        // @input ElementTag(Boolean)
+        // @description
+        // Sets whether the tooltip should be hidden for the item. Accepts a boolean value (true/false).
+        // @tags
+        // <ItemTag.hide_tooltip>
+        // -->
         if (mechanism.matches("hide_tooltip")) {
             ItemMeta meta = item.getItemMeta();
             if (meta == null) {
