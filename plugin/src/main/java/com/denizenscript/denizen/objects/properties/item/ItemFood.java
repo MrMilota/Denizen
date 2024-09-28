@@ -49,22 +49,27 @@ public class ItemFood implements Property {
 
     public ListTag getFoodData() {
         ListTag list = new ListTag();
+
+        ItemMeta meta = item.getItemMeta();
+        FoodComponent foodComponent = meta.getFood();
+
+        list.add(foodComponent.getNutrition() + "," +
+                foodComponent.getSaturation() + "," +
+                foodComponent.canAlwaysEat());
+
+        return list;
+    }
+
+    public ListTag getFoodDataMap() {
+        ListTag list = new ListTag();
         MapTag foodMap = new MapTag();
     
-        // Проверяем, является ли предмет съедобным
-        if (item.getItemMeta() != null && item.getBukkitMaterial().isEdible()) {
-            ItemMeta meta = item.getItemMeta();
-    
-            // Проверяем, если у предмета есть FoodComponent
-            if (meta instanceof FoodComponent) {
-                FoodComponent foodComponent = (FoodComponent) meta;
-    
-                // Записываем значения в MapTag
-                foodMap.putObject("nutrition", new ElementTag(foodComponent.getNutrition()));
-                foodMap.putObject("saturation", new ElementTag(foodComponent.getSaturation()));
-                foodMap.putObject("canAlwaysEat", new ElementTag(foodComponent.canAlwaysEat()));
-            }
-        }
+        ItemMeta meta = item.getItemMeta();
+        FoodComponent foodComponent = meta.getFood();
+
+        foodMap.putObject("nutrition", new ElementTag(foodComponent.getNutrition()));
+        foodMap.putObject("saturation", new ElementTag(foodComponent.getSaturation()));
+        foodMap.putObject("canAlwaysEat", new ElementTag(foodComponent.canAlwaysEat()));
     
         list.addObject(foodMap);
         return list;
@@ -84,6 +89,18 @@ public class ItemFood implements Property {
         PropertyParser.registerTag(ItemFood.class, ListTag.class, "food", (attribute, object) -> {
             return object.getFoodData();
         });
+
+        // <--[tag]
+        // @attribute <ItemTag.food>
+        // @returns ListTag
+        // @group properties
+        // @mechanism ItemTag.food
+        // @description
+        // Returns the food's property value as a ListTag of MapTags, matching the MapTag format of the mechanism.
+        // -->
+        PropertyParser.registerTag(ItemFood.class, ListTag.class, "food_data", (attribute, object) -> {
+            return object.getFoodDataMap();
+        });
     };
 
     @Override 
@@ -99,16 +116,20 @@ public class ItemFood implements Property {
 
     @Override
     public void adjust(Mechanism mechanism) {
+
         // <--[mechanism]
         // @object ItemTag
         // @name food
-        // @input MapTag
+        // @input ListTag
         // @description
         // Sets the food's settings.
-        // The input should be a MapTag with keys "nutrition", "saturation", and "can_always_eat".
-        // For example: [nutrition=4;saturation=0.6;can_always_eat=true]
+        // 1) Comma-separated food data in the format: nutrition,saturation,can_always_eat
+        // For example: 1,1,true
+        // 2) The input should be a MapTag (with map@, bcs canBeType is not working) with keys "nutrition", "saturation", and "can_always_eat".
+        // For example: map@[nutrition=4;saturation=0.6;can_always_eat=true]
         // @tags
         // <ItemTag.food>
+        // <ItemTag.food_data>
         // -->
         if (mechanism.matches("food")) {
             ItemMeta meta = item.getItemMeta();
@@ -127,11 +148,21 @@ public class ItemFood implements Property {
                         foodComponent.setCanAlwaysEat(foodMap.getElement("can_always_eat", "false").asBoolean());
                         meta.setFood(foodComponent);
                     } else {
-                        mechanism.echoError("Ошибка: данные о еде отсутствуют или неверны.");
+                        String getFoodData = object.toString();
+                        String[] data = getFoodData.split(",");
+                        if (data.length == 3) {
+                            FoodComponent foodComponent = meta.getFood();
+                            foodComponent.setNutrition(new ElementTag(data[0]).asInt());
+                            foodComponent.setSaturation(new ElementTag(data[1]).asFloat());
+                            foodComponent.setCanAlwaysEat(new ElementTag(data[2]).asBoolean());
+                            meta.setFood(foodComponent);
+                        } else {
+                            mechanism.echoError("Ошибка: данные о еде отсутствуют или неверны.");
+                        }
                     }
                 }
                 item.setItemMeta(meta);
             }
         }        
-    }        
+    }
 }
