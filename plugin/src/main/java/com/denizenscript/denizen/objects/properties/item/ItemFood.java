@@ -157,7 +157,7 @@ public class ItemFood implements Property {
                             foodComponent.setCanAlwaysEat(new ElementTag(data[2]).asBoolean());
                             meta.setFood(foodComponent);
                         } else {
-                            mechanism.echoError("Ошибка: данные о еде отсутствуют или неверны.");
+                            mechanism.echoError("Error: food data are missing or incorrect.");
                         }
                     }
                 }
