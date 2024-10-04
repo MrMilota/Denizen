@@ -13,7 +13,6 @@ import com.denizenscript.denizencore.utilities.CoreUtilities;
 import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.Registry;
 
 import java.util.Collection;
 import java.util.List;
