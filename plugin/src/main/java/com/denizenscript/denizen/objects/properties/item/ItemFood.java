@@ -168,7 +168,7 @@ public class ItemFood implements Property {
         // <--[mechanism]
         // @object ItemTag
         // @name food
-        // @input MapTag
+        // @input ListTag
         // @description
         // Sets the food's settings, including nutrition, saturation, canAlwaysEat, eatSeconds, usingConvertsTo, and effects.
         // The input should be a MapTag with keys "nutrition", "saturation", "can_always_eat", "eat_seconds", "using_converts_to", and "effects".
