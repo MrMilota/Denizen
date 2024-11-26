@@ -207,6 +207,9 @@ public class ScriptEventRegistry {
             ScriptEvent.registerScriptEvent(PlayerJumpScriptEvent.PlayerJumpsSpigotScriptEventImpl.class);
         }
         ScriptEvent.registerScriptEvent(PlayerKickedScriptEvent.class);
+        if (NMSHandler.getVersion().isAtLeast(NMSVersion.v1_21)) {
+            ScriptEvent.registerScriptEvent(PlayerBannedScriptEvent.class);
+        }
         ScriptEvent.registerScriptEvent(PlayerLeashesEntityScriptEvent.class);
         ScriptEvent.registerScriptEvent(PlayerLeavesBedScriptEvent.class);
         ScriptEvent.registerScriptEvent(PlayerLevelsUpScriptEvent.class);
