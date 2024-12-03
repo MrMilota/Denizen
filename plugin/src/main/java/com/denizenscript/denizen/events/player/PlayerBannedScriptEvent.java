@@ -43,7 +43,6 @@ public class PlayerBannedScriptEvent extends BukkitScriptEvent implements Listen
     // @Player Always.
     //
     // -->
-
     public PlayerBannedScriptEvent() {
         registerCouldMatcher("player banned");
     }
