@@ -131,7 +131,7 @@ public class ItemFood implements Property {
         // @example
         // # Creates a magic item that gives jump boost and strength
         // /ex inventory adjust slot:hand food:nutrition=5|saturation=1|can_always_eat=true|eat_seconds=0.3|using_converts_to=stone|effect=jump_boost;duration=60;amplifier=1;probability=0.1|effect=strength;duration=60;amplifier=1;probability=0.1
-        // # Or for Denizen Script
+        // # Or for Denizen Script (yaml syntax)
         // food: 
         //  - nutrition=5
         //  - saturation=1
